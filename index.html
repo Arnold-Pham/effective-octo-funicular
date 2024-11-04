@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste de Personnages d'Anime</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Liste de Personnages d'Anime</h1>
+
+    <form id="characterForm">
+        <label for="imageUrl">URL de l'image :</label>
+        <input type="text" id="imageUrl" required>
+
+        <label for="characterName">Nom du personnage :</label>
+        <input type="text" id="characterName" required>
+
+        <label for="workName">Nom de l'oeuvre :</label>
+        <select id="workNameSelect">
+            <option value="">Nouvelle oeuvre</option>
+        </select>
+        <input type="text" id="newWorkName" placeholder="Nouvelle oeuvre">
+
+        <button type="submit">Ajouter Personnage</button>
+    </form>
+
+    <label for="filterWork">Filtrer par oeuvre :</label>
+    <select id="filterWork">
+        <option value="">Toutes les oeuvres</option>
+    </select>
+
+    <table id="characterTable">
+        <thead>
+            <tr>
+                <th onclick="sortCharactersByName()">Nom du personnage</th>
+                <th>Image</th>
+                <th>Oeuvre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Modifier le personnage</h2>
+            <form id="updateCharacterForm">
+                <label for="updateImageUrl">URL de l'image :</label>
+                <input type="text" id="updateImageUrl" required>
+
+                <label for="updateCharacterName">Nom du personnage :</label>
+                <input type="text" id="updateCharacterName" required>
+
+                <label for="updateWorkName">Nom de l'oeuvre :</label>
+                <select id="updateWorkNameSelect"></select>
+
+                <button type="submit">Mettre à jour</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
