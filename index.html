@@ -18,19 +18,22 @@
         <label for="characterName">Nom du personnage :</label>
         <input type="text" id="characterName" required>
 
-        <label for="workName">Nom de l'oeuvre :</label>
-        <select id="workNameSelect">
+        <label for="workOption">Oeuvre :</label>
+        <select id="workOption" onchange="toggleWorkInput()">
             <option value="">Nouvelle oeuvre</option>
         </select>
-        <input type="text" id="newWorkName" placeholder="Nouvelle oeuvre">
+        <input type="text" id="newWorkName" placeholder="Nom de l'oeuvre" required>
 
         <button type="submit">Ajouter Personnage</button>
     </form>
 
-    <label for="filterWork">Filtrer par oeuvre :</label>
-    <select id="filterWork">
-        <option value="">Toutes les oeuvres</option>
-    </select>
+    <div id="filterContainer" style="display: none;">
+        <label for="filterWork">Filtrer par oeuvre :</label>
+        <select id="filterWork" onchange="filterCharacters()">
+            <option value="">Toutes les oeuvres</option>
+        </select>
+    </div>
+
 
     <table id="characterTable">
         <thead>
@@ -46,8 +49,8 @@
 
     <div id="updateModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Modifier le personnage</h2>
+            <span class="close" onclick="closeUpdateModal()">&times;</span>
+
             <form id="updateCharacterForm">
                 <label for="updateImageUrl">URL de l'image :</label>
                 <input type="text" id="updateImageUrl" required>
@@ -55,13 +58,14 @@
                 <label for="updateCharacterName">Nom du personnage :</label>
                 <input type="text" id="updateCharacterName" required>
 
-                <label for="updateWorkName">Nom de l'oeuvre :</label>
-                <select id="updateWorkNameSelect"></select>
+                <label for="updateWorkName">Œuvre :</label>
+                <input type="text" id="updateWorkName" required>
 
                 <button type="submit">Mettre à jour</button>
             </form>
         </div>
     </div>
+
 
     <script src="app.js"></script>
 </body>

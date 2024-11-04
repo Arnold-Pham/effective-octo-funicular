@@ -20,17 +20,21 @@ function displayCharacters(filter = "") {
         `;
         tbody.appendChild(row);
     });
+
+
+    document.getElementById("filterContainer").style.display = works.length > 0 ? "block" : "none";
 }
 
 function addCharacter(event) {
     event.preventDefault();
     const imageUrl = document.getElementById("imageUrl").value;
     const characterName = document.getElementById("characterName").value;
-    const workName = document.getElementById("workNameSelect").value || document.getElementById("newWorkName").value;
+    const workOption = document.getElementById("workOption").value;
+    const workName = workOption || document.getElementById("newWorkName").value;
 
     if (!works.includes(workName)) {
         works.push(workName);
-        updateWorkSelectOptions();
+        updateWorkOptions();
         localStorage.setItem('works', JSON.stringify(works));
     }
 
@@ -39,6 +43,7 @@ function addCharacter(event) {
 
     displayCharacters();
     document.getElementById("characterForm").reset();
+    toggleWorkInput();
 }
 
 function deleteCharacter(index) {
@@ -51,7 +56,7 @@ function openUpdateModal(index) {
     const character = characters[index];
     document.getElementById("updateImageUrl").value = character.image;
     document.getElementById("updateCharacterName").value = character.name;
-    document.getElementById("updateWorkNameSelect").value = character.work;
+    document.getElementById("updateWorkName").value = character.work;
     document.getElementById("updateCharacterForm").onsubmit = (event) => updateCharacter(event, index);
     document.getElementById("updateModal").style.display = "block";
 }
@@ -60,7 +65,7 @@ function updateCharacter(event, index) {
     event.preventDefault();
     const imageUrl = document.getElementById("updateImageUrl").value;
     const characterName = document.getElementById("updateCharacterName").value;
-    const workName = document.getElementById("updateWorkNameSelect").value;
+    const workName = document.getElementById("updateWorkName").value;
 
     characters[index] = { image: imageUrl, name: characterName, work: workName };
     localStorage.setItem('characters', JSON.stringify(characters));
@@ -72,17 +77,42 @@ function closeUpdateModal() {
     document.getElementById("updateModal").style.display = "none";
 }
 
-function updateWorkSelectOptions() {
-    const workSelects = [document.getElementById("workNameSelect"), document.getElementById("filterWork"), document.getElementById("updateWorkNameSelect")];
-    workSelects.forEach(select => {
-        select.innerHTML = '<option value="">Nouvelle oeuvre</option>';
-        works.forEach(work => {
-            const option = document.createElement("option");
-            option.value = work;
-            option.textContent = work;
-            select.appendChild(option);
-        });
+window.onclick = function (event) {
+    const modal = document.getElementById("updateModal");
+    if (event.target === modal) {
+        closeUpdateModal();
+    }
+}
+
+function updateWorkOptions() {
+    const workOptionSelect = document.getElementById("workOption");
+    const filterSelect = document.getElementById("filterWork");
+
+
+    workOptionSelect.innerHTML = '<option value="">Nouvelle œuvre</option>';
+    works.forEach(work => {
+        const option = document.createElement("option");
+        option.value = work;
+        option.textContent = work;
+        workOptionSelect.appendChild(option);
     });
+
+
+    filterSelect.innerHTML = '<option value="">Toutes les œuvres</option>';
+    works.forEach(work => {
+        const option = document.createElement("option");
+        option.value = work;
+        option.textContent = work;
+        filterSelect.appendChild(option);
+    });
+}
+
+function toggleWorkInput() {
+    const workOption = document.getElementById("workOption").value;
+    const newWorkInput = document.getElementById("newWorkName");
+
+
+    newWorkInput.style.display = workOption ? "none" : "block";
 }
 
 function sortCharactersByName() {
@@ -90,9 +120,14 @@ function sortCharactersByName() {
     displayCharacters();
 }
 
+function filterCharacters() {
+    const filter = document.getElementById("filterWork").value;
+    displayCharacters(filter);
+}
+
 document.getElementById("characterForm").onsubmit = addCharacter;
-document.getElementById("filterWork").onchange = (event) => displayCharacters(event.target.value);
 document.querySelector(".close").onclick = closeUpdateModal;
 
-updateWorkSelectOptions();
+updateWorkOptions();
 displayCharacters();
+toggleWorkInput();
